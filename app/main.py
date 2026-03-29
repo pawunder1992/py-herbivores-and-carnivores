@@ -1,6 +1,6 @@
 class Animal:
 
-    alive = []
+    alive: list["Animal"] = []
 
     def __init__(self, name: str, health: int = 100,
                  hidden: bool = False) -> None:
@@ -17,17 +17,14 @@ class Animal:
 
 class Herbivore(Animal):
     def hide(self) -> None:
-        if self.hidden is True :
-            self.hidden = False
-        else :
-            self.hidden = True
+        self.hidden = not self.hidden
 
 
 class Carnivore(Animal):
-
-    def bite(self, animal: Animal | Herbivore | Carnivore) -> None:
+    @staticmethod
+    def bite(animal: Animal | Herbivore | Carnivore) -> None:
         if isinstance(animal, Herbivore):
             if animal.hidden is not True:
                 animal.health -= 50
             if animal.health <= 0:
-                self.alive.remove(animal)
+                Animal.alive.remove(animal)
